@@ -111,12 +111,12 @@ class SessionController extends Controller
     *@return \Illuminate\Http\Response
     */
 
-    public function redirectToProvider($driver)
+    public function redirectToProvider()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleProviderCallback($driver)
+    public function handleProviderCallback()
     {
         $user = Socialite::driver('google')->user();
 
