@@ -25,6 +25,7 @@ class Customer extends Authenticatable implements CustomerContract, JWTSubject
         'email',
         'phone',
         'password',
+        'google_id',
         'api_token',
         'customer_group_id',
         'subscribed_to_news_letter',

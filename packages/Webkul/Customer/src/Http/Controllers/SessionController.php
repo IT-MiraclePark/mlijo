@@ -98,4 +98,38 @@ class SessionController extends Controller
 
         return redirect()->route($this->_config['redirect']);
     }
+     /**
+    * Redirect the user to the Google authentication page.
+    *
+    *@return \Illuminate\Http\Response
+    */
+    public function redirectToProvider()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        $user = Socialite::driver('google')->user();
+
+        $existingUser = $this->customer->findOneWhere(['email' => $user->email]);
+
+        if ($existingUser) {
+
+            auth()->guard('customer')->login($existingUser, true);
+
+            return redirect()->route('customer.profile.index');
+        } else {
+            $data['first_name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['password'] = Hash::make(str_random(8));
+            $data['channel_id'] = core()->getCurrentChannel()->id;
+
+            $customer = $this->customer->create($data);
+
+            auth()->guard('customer')->login($customer, true);
+
+            return redirect()->route('customer.profile.index');
+        }
+    }
 }

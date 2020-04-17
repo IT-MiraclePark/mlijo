@@ -138,6 +138,10 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
             'redirect' => 'customer.profile.index'
         ])->name('customer.session.create');
 
+        //google auth login
+        Route::get('/redirect', 'Webkul\Customer\Http\Controllers\SessionController@redirectToProvider')->name('redirect');
+        Route::get('/callback','Webkul\Customer\Http\Controllers\SessionController@handleProviderCallback');
+
         // Registration Routes
         //registration form show
         Route::get('register', 'Webkul\Customer\Http\Controllers\RegistrationController@show')->defaults('_config', [
