@@ -138,10 +138,7 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
             'redirect' => 'customer.profile.index'
         ])->name('customer.session.create');
 
-        //google auth login
-        Route::get('/redirect', 'Webkul\Customer\Http\Controllers\SessionController@redirectToProvider')->name('redirect');
-        Route::get('/callback','Webkul\Customer\Http\Controllers\SessionController@handleProviderCallback');
-
+       
         // Registration Routes
         //registration form show
         Route::get('register', 'Webkul\Customer\Http\Controllers\RegistrationController@show')->defaults('_config', [
@@ -297,7 +294,11 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
             });
         });
     });
-    //customer routes end here
+    //customer routes end here\
+
+    //google auth login
+    Route::get('/redirect', 'Webkul\Customer\Http\Controllers\SessionController@redirectToProvider')->name('redirect');
+    Route::get('/callback','Webkul\Customer\Http\Controllers\SessionController@handleProviderCallback');
 
     Route::get('page/{slug}', 'Webkul\CMS\Http\Controllers\Shop\PagePresenterController@presenter')->name('shop.cms.page');
 

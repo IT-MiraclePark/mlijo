@@ -5,6 +5,7 @@ namespace Webkul\Customer\Http\Controllers;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Event;
 use Webkul\Customer\Repositories\CustomerRepository;
+use Webkul\Customer\Models\Customer;
 use Hash;
 use Cookie;
 
