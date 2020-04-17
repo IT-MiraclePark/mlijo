@@ -139,8 +139,8 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
         ])->name('customer.session.create');
 
         //google auth login
-        Route::get('/redirect', 'Webkul\Customer\Http\Controllers\SessionController@redirectToProvider')->name('redirect');
-        Route::get('/callback','Webkul\Customer\Http\Controllers\SessionController@handleProviderCallback');
+        Route::get('/redirect', 'Webkul\Customer\Http\Controllers\SessionController@redirectToProvider')->name('login.provider');
+        Route::get('/callback','Webkul\Customer\Http\Controllers\SessionController@handleProviderCallback')->name('login.callback');
 
         // Registration Routes
         //registration form show
