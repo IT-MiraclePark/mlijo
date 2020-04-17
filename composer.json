@@ -29,6 +29,7 @@
         "konekt/concord": "^1.2",
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
+        "laravel/socialite": "^4.3",
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "3.1.18",
         "nwidart/laravel-modules": "^3.2",
