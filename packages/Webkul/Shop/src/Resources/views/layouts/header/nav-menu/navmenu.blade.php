@@ -69,6 +69,7 @@ foreach (app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCateg
         <a :href="url+'/'+this.item['translations'][0].url_path">
             @{{ name }}&emsp;
             <i class="icon dropdown-right-icon" v-if="haveChildren && item.parent_id != null"></i>
+            <img :src="url+'/storage/'+image" style="height: 20px; width: 20px">
         </a>
 
         <i :class="[show ? 'icon icon-arrow-down mt-15' : 'icon dropdown-right-icon left mt-15']"
@@ -122,6 +123,11 @@ foreach (app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCateg
                 }
 
                 return this.item.name;
+            }
+        },
+
+        image: function() {
+                return this.item.image;
             }
         },
 

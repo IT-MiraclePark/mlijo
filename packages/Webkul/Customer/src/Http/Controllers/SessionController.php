@@ -2,6 +2,7 @@
 
 namespace Webkul\Customer\Http\Controllers;
 
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Event;
 use Cookie;
 
@@ -21,7 +22,7 @@ class SessionController extends Controller
     */
     public function __construct()
     {
-        $this->middleware('customer')->except(['show','create']);
+        $this->middleware('customer')->except(['show','create', 'redirectToProvider', 'handleProviderCallback']);
 
         $this->_config = request('_config');
     }
@@ -103,6 +104,7 @@ class SessionController extends Controller
     *
     *@return \Illuminate\Http\Response
     */
+
     public function redirectToProvider()
     {
         return Socialite::driver('google')->redirect();
@@ -112,24 +114,7 @@ class SessionController extends Controller
     {
         $user = Socialite::driver('google')->user();
 
-        $existingUser = $this->customer->findOneWhere(['email' => $user->email]);
-
-        if ($existingUser) {
-
-            auth()->guard('customer')->login($existingUser, true);
-
-            return redirect()->route('customer.profile.index');
-        } else {
-            $data['first_name'] = $user->name;
-            $data['email'] = $user->email;
-            $data['password'] = Hash::make(str_random(8));
-            $data['channel_id'] = core()->getCurrentChannel()->id;
-
-            $customer = $this->customer->create($data);
-
-            auth()->guard('customer')->login($customer, true);
-
-            return redirect()->route('customer.profile.index');
-        }
+        return $user->token;
     }
+    
 }
