@@ -28,7 +28,7 @@ return [
     'google' => [
         'client_id' => '376310558506-req3l9p0ktn08rlcgu3h3508o2la0a04.apps.googleusercontent.com',
         'client_secret' => 'cymIDHS_aZKGi-pZNU3_hjhs',
-        'redirect' => 'https://mlijo.id/google/callback',
+        'redirect' => 'https://mlijo.id/public/callback',
     ],
 
     'sparkpost' => [
