@@ -118,27 +118,28 @@ class SessionController extends Controller
 
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('google')->user();
-
-        $existingUser = $this->customer->findOneWhere(['email' => $user->email]);
-
-        if ($existingUser) {
-
-            auth()->guard('customer')->login($existingUser, true);
-
-            return redirect()->route('customer.profile.index');
+        try {
+            $user = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect('/login');
+        }        // only allow people with @company.com to login
+        if(explode("@", $user->email)[1] !== 'company.com'){
+            return redirect()->to('/');
+        }        // check if they're an existing user
+        $existingUser = User::where('email', $user->email)->first();        if($existingUser){
+            // log them in
+            auth()->login($existingUser, true);
         } else {
-            $data['first_name'] = $user->name;
-            $data['email'] = $user->email;
-            $data['password'] = Hash::make(str_random(8));
-            $data['channel_id'] = core()->getCurrentChannel()->id;
-
-            $customer = $this->customer->create($data);
-
-            auth()->guard('customer')->login($customer, true);
-
-            return redirect()->route('customer.profile.index');
+            // create a new user
+            $newUser                  = new User;
+            $newUser->name            = $user->name;
+            $newUser->email           = $user->email;
+            $newUser->google_id       = $user->id;
+            $newUser->avatar          = $user->avatar;
+            $newUser->avatar_original = $user->avatar_original;
+            $newUser->save();            auth()->login($newUser, true);
         }
+        return redirect()->route('customer.profile.index');
     }
     
 }
