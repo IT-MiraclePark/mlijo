@@ -302,6 +302,10 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
 
     Route::get('page/{slug}', 'Webkul\CMS\Http\Controllers\Shop\PagePresenterController@presenter')->name('shop.cms.page');
 
+    Route::get('/symx', function () {
+        Artisan::call('storage:link')
+    });
+
     Route::fallback(\Webkul\Shop\Http\Controllers\ProductsCategoriesProxyController::class . '@index')
         ->defaults('_config', [
             'product_view' => 'shop::products.view',
